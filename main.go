@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/uadmin/uadmin"
@@ -19,6 +21,14 @@ func main() {
 	uadmin.Register(
 		Task{},
 	)
-	uadmin.Port = 8080
+	port := os.Getenv("PORT")
+
+	if port != "" {
+		tPort, _ := strconv.ParseInt(port, 10, 64)
+		uadmin.Port = int(tPort)
+	} else {
+		uadmin.Port = 8080
+	}
+
 	uadmin.StartServer()
 }
